@@ -1,0 +1,3 @@
+[submodule "smls"]
+	path = smls
+	url = https://github.com/stewart123579/smls

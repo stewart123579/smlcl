@@ -1,0 +1,129 @@
+#+TITLE: smlcl - Stewart's ML library in CL
+#+AUTHOR: Stewart V. Wright
+#+DATE: 2022/02/03
+#+LASTMOD: 2022/03/14
+#+EMAIL: stewart@vifortech.com
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:nil toc:t \n:nil ::t |:t ^:t -:t f:t *:t
+# #+OPTIONS:   tex:t d:(HIDE) tags:not-in-toc
+#+STARTUP:   num
+
+* smlcl
+
+My (Stewart's) Machine Learning library in Common Lisp.
+
+This package provides common lisp bindings to machine learning functions and in
+particular functions available in other languages.  For example, rather than
+rewriting Google's Tensorflow python bindings I'm going to use all their hard
+work.
+
+** Usage
+
+This tool is designed to enable two development styles.  The functions can be
+run both with a local instance of the ML models running (for whatever definition
+of /local/ you use) and also by accessing the models the API calls - and
+shipping data via HTTP POST queries.
+
+Why?
+
+Often /training/ machine learning models requires large amounts of data and
+parsing the data in lisp, serialising, shipping via a POST command, etc. is not
+efficient.  In a number of *my* use cases, it is better to train the model
+locally to the lisp code (usually on a large GPU-style machine from a cloud
+vendor) and then save the resulting model.
+
+Conversely, /deploying/ the model often can involve API calls of (relatively)
+small amounts of data, but possibly a number of examples concurrently, so
+something that can scale across multiple machines.
+
+In /both/ cases the function calls are identical. For example the following
+embeds words using the [[https://tfhub.dev/google/universal-sentence-encoder][Tensorflow Universal Sentence Encoder]] for NLP
+investigations:
+
+#+begin_src lisp
+  (ql:quickload 'smlcl-local)
+  (smlcl:embed '("the" "quick" "brown" "fox"))
+#+end_src
+
+*** Run the ML locally
+
+Running the python ML locally depends on having the python environment set up
+(see discussion below) as we use ~py4cl~ (~py4cl2~ is planned for the future) to
+call functions.
+
+#+begin_src lisp
+  (ql:quickload 'smlcl-local)
+#+end_src
+
+*** Run the ML via API calls
+
+To run this remotely (or mocking that by running the server locally!) requires
+the python webserver to be running and the correct URL to be set in
+~*smls-url*~. It's probably defaulting to ~http://localhost:8000~, but you can
+see what it's set to like this:
+
+#+begin_src lisp
+  (ql:quickload 'smlcl-api)
+  smlcl:*smls-url*
+#+end_src
+
+*** Running the machine learning server (~smls~)
+
+See the notes in ~smls~ about how to run the server.
+
+** Installation
+
+As this tool is dependent on python (both locally and for the API
+implementation), there are a few steps.
+
+*** Set up ~python~
+
+The ML server (~smls~) uses the Tensorflow library and in particular the python
+bindings, so we need to set up python and install the required libraries.  You
+will need to do this either locally (to the lisp instance) or on the remote
+machine(s) if you're going to access the machine learning via the API.
+
+I'd recommend you look at the README in the ~smls~ directory, but, here's a shortcut...
+
+Following the standard way of doing this in python, set up a virtual environment
+(in the ~smls~ directory) and install dependencies:
+
+#+begin_src shell
+  python -m venv --prompt smls venv
+  source venv/bin/activate
+  pip install -r requirements.txt
+#+end_src
+
+*** Set up the lisp package
+
+Clone the repository ([[https://github.com/stewart123579/smlcl]]) into your
+[[https://www.quicklisp.org/beta/][quicklisp]] search path
+
+#+begin_src shell
+  git clone https://github.com/stewart123579/smlcl.git
+  git submodule init
+  git submodule update
+#+end_src
+
+...and then ~quickload~ either the local version or the API
+driven one:
+
+#+begin_src lisp
+  (ql:quickload 'smlcl-local)
+  ;; or
+  (ql:quickload 'smlcl-api)
+#+end_src
+
+The tools will be available in the ~smlcl~ package namespace.
+
+** Author
+
++ Stewart V. Wright (stewart@vifortech.com)
+
+** Copyright
+
+Copyright (c) 2022 Stewart V. Wright (stewart@vifortech.com)
+
+** License
+
+Licensed under the MIT License.
