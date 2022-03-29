@@ -20,11 +20,13 @@
 
 ;; (enumerate '(a b c a))
 
-(defun enum-list (l &key (test #'eql))
+
+(defun enum-list (l &rest rest &key (test #'eql) &allow-other-keys)
   "Convert a list to a list of symbols and also return the mapping alist"
-  (let ((enums (enumerate l :test test)))
+  (let ((enums (apply #'enumerate l rest)))
     (values
      (mapcar (lambda (x) (cdr (assoc x enums :test test))) l)
      enums)))
 
 ;; (enumerate '("aaa" "bbb" "ccc" "aaa") :test #'string=)
+;; (enum-list '("aaa" "bbb" "ccc" "aaa") :test #'string= :enums '(("bbb" . 11) ("d" . 1)))
