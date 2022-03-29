@@ -1,4 +1,4 @@
-(defpackage smlcl
+(defpackage smlcl-core
   (:use :cl)
   (:export
    ;; Utilities
@@ -7,10 +7,6 @@
    ;; Enumeration
    #:enumerate
    #:enum-list
-
-   ;;;; The following are added to this package by the *-local or *-api packages
-   ;; Embeddings
-   #:embed
    ))
 
-(in-package :smlcl)
+(in-package :smlcl-core)

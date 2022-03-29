@@ -1,5 +1,6 @@
 (defpackage smlcl-api
-  (:use :cl)
+  (:use :cl :smlcl-core)
+  (:nicknames :smlcl)
   (:import-from :dexador)
   (:import-from :cl-json)
   (:export
@@ -7,7 +8,7 @@
    #:embed
    ))
 
-(in-package :smlcl)
+(in-package :smlcl-api)
 
 (defparameter *smls-url* "http://localhost:8000"
   "The URL of the smls server")

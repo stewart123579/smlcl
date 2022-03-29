@@ -1,5 +1,6 @@
 (defpackage smlcl-local
-  (:use :cl)
+  (:use :cl :smlcl-core)
+  (:nicknames :smlcl)
   (:export
    ;; Embeddings
    #:embed

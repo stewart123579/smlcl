@@ -1,4 +1,4 @@
-(in-package :smlcl)
+(in-package :smlcl-local)
 
 (py4cl:python-exec "import smls")
 
@@ -8,7 +8,8 @@
                        :docstring "Embed messages using the local server")
 
 (defun embed (messages)
-  "Convert from the vector returned by python to a cons (list of lists)"
+  "Embed messages using the local server"
+  ;; Convert from the vector returned by python to a cons (list of lists)
   (let ((embeddings (embed-py messages)))
     (loop for embedding across embeddings
           collect (loop for i across embedding collect i))))

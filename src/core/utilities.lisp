@@ -1,4 +1,4 @@
-(in-package :smlcl)
+(in-package :smlcl-core)
 
 ;; Array functions
 

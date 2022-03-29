@@ -1,4 +1,4 @@
-(in-package :smlcl)
+(in-package :smlcl-api)
 
 (defun embed (messages)
   "Embed messages using the HTTP/POST server

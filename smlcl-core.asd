@@ -1,10 +1,7 @@
-(defsystem "smlcl"
+(defsystem "smlcl-core"
   :version "0.1.0"
   :author "Stewart V. Wright"
   :license "MIT"
-  ;; :depends-on ("dexador"
-  ;;              "cl-json"
-  ;;              "py4cl")
   :components ((:module "src/core"
                 :components
                 ((:file "main")
@@ -14,14 +11,14 @@
   :in-order-to ((test-op (test-op "smlcl/tests"))))
 
 
-(defsystem "smlcl/tests"
+(defsystem "smlcl-core/tests"
   :author "Stewart V. Wright"
   :license "MIT"
-  :depends-on ("smlcl"
+  :depends-on ("smlcl-core"
                "rove")
   :components ((:module "tests"
                 :components
                 ((:file "main")
                  (:file "embedding" :depends-on ("main")))))
-  :description "Test system for smlcl"
+  :description "Test system for smlcl-core"
   :perform (test-op (op c) (symbol-call :rove :run c)))

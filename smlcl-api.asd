@@ -2,7 +2,7 @@
   :version "0.1.0"
   :author "Stewart V. Wright"
   :license "MIT"
-  :depends-on ("smlcl"
+  :depends-on ("smlcl-core"
                "dexador"
                "cl-json")
   :components ((:module "src/api"
